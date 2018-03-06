@@ -28,20 +28,20 @@ def printExit():
     print ("")
     print ("Exitting game...")
     print ("")
-    
+
     sys.exit(0)
 
 def printWin(player):
 
     print ("")
-    
+
     if player == 1:
         print ("Player 1 won!")
     else:
         print ("Player 2 won!")
 
     print ("")
-    
+
     sys.exit(0)
 
 def printBoard(b):
@@ -63,12 +63,12 @@ def printBoard(b):
         print ("")
 
     print ("")
-    
+
 # MAIN --------------------------------------------------------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    
+
     printMenu()
     op = input("Choose an option: ")
 
@@ -82,14 +82,14 @@ if __name__ == '__main__':
 
             (x1, y1) = (0, 0)
             (x2, y2) = (0, 0)
-            
+
             res1 = False
             res2 = False
 
             while not res1:
                 (x1, y1) = input("Player 1 - Choose 2 coordinates: ").split(",")
                 (x1, y1) = (int(x1), int(y1))
-                
+
                 if x1 == -1 or y1 == -1:
                     printExit()
 
@@ -114,7 +114,7 @@ if __name__ == '__main__':
                     print ("")
                     print ("\nInsert validate coordinates!\n")
 
-            if b.win(x2,y2,1):
+            if b.win(x2,y2,2):
                 printWin(2)
 
     if op == "2":
