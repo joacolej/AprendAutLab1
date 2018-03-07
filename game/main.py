@@ -96,8 +96,6 @@ def vsRandom(b, turn):
 
         while not res1:
 
-            (x1, y1) = (0,0)
-
             if turn == 1:
                 (x1, y1) = input("Player 1 - Choose 2 coordinates: ").split(",")
                 (x1, y1) = (int(x1) - 1, int(y1) - 1)
@@ -119,8 +117,6 @@ def vsRandom(b, turn):
         printBoard(b)
 
         while not res2:
-
-            (x2, y2) = (0,0)
 
             if turn == 2:
                 (x2, y2) = input("Player 2 - Choose 2 coordinates: ").split(",")
