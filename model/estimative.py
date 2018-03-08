@@ -5,6 +5,7 @@
 #        lineas 5)
 class Values():
     def __init__(self):
+        # Pesos wi
         self.est_function = ([0,0,0,0,0,0,0,0,0,0,1], [0,0,0,0,0,0,0,0,0,0,0])
         self.learn_rate = 0.5
 
