@@ -12,7 +12,7 @@ class Board():
 		self._matrix = zeros(361)
 		self._matrix = reshape(self._matrix,(19,19))
 
-	def getMatrix():
+	def getMatrix(self):
 		return self._matrix
 
 	def removeToken(self, x, y):
