@@ -7,16 +7,26 @@ from numpy import *
 
 class Board():
 
+	# CONSTRUCTOR ---------------------------------------------------------------------------------------------------------------------------------------
+	# ---------------------------------------------------------------------------------------------------------------------------------------------------
+
 	def __init__(self):
 
+		self._free = 361
 		self._matrix = zeros(361)
 		self._matrix = reshape(self._matrix,(19,19))
 
-	def getMatrix(self):
-		return self._matrix
+	# GETTERS -------------------------------------------------------------------------------------------------------------------------------------------
+	# ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-	def removeToken(self, x, y):
-		self._matrix[x][y] = 0
+	def get_free(self):
+		return self._free
+
+	def get_matrix(self):
+		return self._matrix
+		
+	# METHODS -------------------------------------------------------------------------------------------------------------------------------------------
+	# ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 	def addToken(self, x, y, val):
 
@@ -29,8 +39,12 @@ class Board():
 		if self._matrix[x][y] != 0:
 			return False
 
+		self._free = self._free - 1
 		self._matrix[x][y] = val
 		return True
+
+	def removeToken(self, x, y):
+		self._matrix[x][y] = 0
 
 	def win(self, x, y, val):
 
@@ -88,7 +102,7 @@ class Board():
 				return True
 
 		if x-3 >= 0 and y-3 >= 0 and x+1 < 19 and y+1 < 19:
-			if self._matrix[x-1][y-1] == val and self._matrix[x-2][y-2] == val and self._matrix[x-3][y-3] == val and self._matrix[x-4][y-4] == val:
+			if self._matrix[x-1][y-1] == val and self._matrix[x-2][y-2] == val and self._matrix[x-3][y-3] == val and self._matrix[x+1][y+1] == val:
 				return True
 
 		if x-2 >= 0 and y-2 >= 0 and x+2 < 19 and y+2 < 19:
@@ -127,3 +141,6 @@ class Board():
 				return True
 
 		return False
+
+	def draw(self):
+		return self._free == 0
