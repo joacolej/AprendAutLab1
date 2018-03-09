@@ -67,10 +67,10 @@ def select_index(cur, threat_lvl):
     else:
         return 3*(cur-2) + threat_lvl + 1
 
-
-matrix2 =  np.array([[1,0,2,1,0],
-            [1,1,0,2,2],
-            [1,2,0,0,0],
-            [1,0,1,2,0]])
-print(matrix2)
-print(matrix_to_values(matrix2))
+def test_it():
+    matrix2 =  np.array([[1,0,2,1,0],
+                [1,1,0,2,2],
+                [1,2,0,0,0],
+                [1,0,1,2,0]])
+    print(matrix2)
+    print(matrix_to_values(matrix2))

@@ -2,10 +2,12 @@
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
 import os
 import sys
-from board import Board
+from game.board import Board
 from termcolor import colored
 from numpy import random
-
+from model.estimative import Values
+from game.machine import MvsRandom
+from model.matrix import matrix_to_values
 # AUXILIAR METHODS --------------------------------------------------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +32,7 @@ def printMenu():
     print ("1. VS Random")
     print ("2. VS Yourself")
     print ("3. VS Human")
+    print ("4. Machine VS Random")
 
 def printExit():
 
@@ -60,7 +63,7 @@ def printBoard(b):
     print("    01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19")
 
     for x in range(0, 19):
-        
+
         if x < 9:
             print(" 0", end="")
         else:
@@ -249,9 +252,20 @@ if __name__ == '__main__':
 
     if op == "1":
         vsRandom(b, turn)
-       
+
     if op == "2":
         vsMyself(b, turn)
 
     if op == "3":
         vsHuman(b, turn)
+
+    if op == "4":
+        moves = []
+        player = Values()
+        for i in range (0,100):
+            b = Board()
+            boards = MvsRandom(b, turn, player)
+            for board in boards:
+                moves.append(matrix_to_values(board.get_matrix()))
+            train_values = player.assign_train_value(moves)
+            player.update_est_function(train_values)
