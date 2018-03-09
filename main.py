@@ -264,8 +264,8 @@ if __name__ == '__main__':
         player = Values()
         for i in range (0,100):
             b = Board()
-            boards = MvsRandom(b, turn, player)
+            boards = MvsRandom(b, 1, player, i)
             for board in boards:
-                moves.append(matrix_to_values(board.get_matrix()))
+                moves.append(matrix_to_values(board))
             train_values = player.assign_train_value(moves)
             player.update_est_function(train_values)

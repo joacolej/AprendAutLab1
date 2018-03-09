@@ -3,9 +3,11 @@
 #        lineas 3 libres, lineas 3 amenazadas, lineas 3 inutiles,
 #        lineas 4 libres, lineas 4 amenazadas, lineas 4 inutiles
 #        lineas 5)
+import numpy as np
+
 class Values():
     def __init__(self):
-        self.est_function = ([0,0,0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0,0,0])
+        self.est_function = ([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1], [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1])
         self.learn_rate = 0.5
 
     def estimate_value(self, move):
@@ -30,21 +32,30 @@ class Values():
         (b_est_function, w_est_function) = self.est_function
         for ((b_board, w_board), v_train) in train_values:
             for i in range (0, len(b_board)):
-                b_est_function[i] = b_est_function[i] + self.learn_rate*(v_train - self.estimate_value((b_board, w_board)))*b_board[i]
+                b_est_function[i] = b_est_function[i] + self.learn_rate * (v_train - self.estimate_value((b_board, w_board))) * b_board[i]
                 w_est_function[i] = w_est_function[i] + self.learn_rate*(v_train - self.estimate_value((b_board, w_board)))*w_board[i]
         self.est_function = (b_est_function, w_est_function)
+        print(self.est_function)
 
     def select_play(self, board):
-        ret = (-1,-1)
-        value = -1000
+        first = True
         copy = board.get_matrix()
         for i in range(0, len(copy)):
             for j in range(0, len(copy[0])):
                 if copy[i][j] == 0:
-                    copy[i][j] = 1
-                    new_value = self.estimate_value(copy)
-                    if new_value >= value:
-                        value = new_value
-                        ret = (i, j)
-                    copy[i][j] = 0
+                    if first:
+                        ret = (i,j)
+                        copy[i][j] = 1
+                        first = False
+                        value = self.estimate_value(copy)
+                        copy[i][j] = 0
+                    else:
+                        copy[i][j] = 1
+                        new_value = self.estimate_value(copy)
+                        if new_value > value:
+                            value = new_value
+                            ret = (i, j)
+                        elif new_value == value and np.random.randint(0,20) == 3:
+                            ret = (i, j)
+                        copy[i][j] = 0
         return ret

@@ -1,6 +1,7 @@
 import os
 from numpy import random
 from termcolor import colored
+import sys
 
 def printClear():
 
@@ -31,45 +32,19 @@ def printWin(player):
     print ("")
 
 
-def printBoard(b):
+def printBoard(b, game):
+    f = open("juego"+str(game),'w')
+    f.writelines(["%s\n" % item  for item in b.get_matrix()])
 
-    printClear()
-    print ("")
-
-    print("    01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19")
-
-    for x in range(0, 19):
-
-        if x < 9:
-            print(" 0", end="")
-        else:
-            print(" ", end="")
-        print(x+1, end=" ")
-
-        for y in range(0,19):
-            if b._matrix[x][y] == 0:
-                print("[ ]", end="")
-            elif b._matrix[x][y] == 1:
-                print(colored('[X]', 'blue'), end="")
-            elif b._matrix[x][y] == 2:
-                print(colored('[O]', 'red'), end="")
-
-        print ("")
-
-    print ("")
-
-
-
-
-def MvsRandom(b, turn, player):
+def MvsRandom(b, turn, player, game):
     freecells = b.get_size()
     boards = []
     while True:
         if freecells == 0:
+            printBoard(b, game)
             return boards
         res1 = False
         res2 = False
-        printBoard(b)
         while not res1:
 
             if turn == 1:
@@ -80,11 +55,10 @@ def MvsRandom(b, turn, player):
 
             res1 = b.addToken(x1, y1, 1)
         if b.win(x1,y1,1) == True:
-            printWin(1)
+            printBoard(b, game)
             return boards
 
         freecells = freecells - 1
-        printBoard(b)
         while not res2:
 
             if turn == 2:
@@ -94,10 +68,10 @@ def MvsRandom(b, turn, player):
                 y2 = random.randint(1,20)
 
             res2 = b.addToken(x2, y2, 2)
-            if not res2:
-                print ("\nInsert validate coordinates!\n")
-        boards.append(b)
+        new_matrix = b.get_matrix().copy()
+        boards.append(new_matrix)
         if b.win(x2,y2,2):
+            printBoard(b, game)
             printWin(2)
             return boards
 
