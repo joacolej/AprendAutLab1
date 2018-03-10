@@ -24,7 +24,7 @@ class Game():
     # METHODS -------------------------------------------------------------------------------------------------------------------------------------------
     # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-    def play(self, mode, isPlaying, player):
+    def play(self, mode, isPlaying, player, player2):
 
         b = Board()
 
@@ -73,6 +73,9 @@ class Game():
                     x = np.random.randint(1,20)
                     y = np.random.randint(1,20)
 
+                elif mode == const.VS_SELF:
+                    (x, y) = player2.select_best_play(b, 2)
+
                 else: 
                     (x, y) = input("Player 2 - Choose 2 coordinates: ").split(",")
                     (x, y) = (int(x) - 1, int(y) - 1)
@@ -97,6 +100,8 @@ class Game():
 
             if isPlaying or mode == 3:
                 self.printBoard(b)
+
+            #print(b.get_free())
 
     # AUXILIAR METHODS --------------------------------------------------------------------------------------------------------------------------------------
     # -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,5 +186,5 @@ if __name__ == '__main__':
     
     g.printMenu()
     op = input("Choose an option: ")
-    g.play(int(op), True, None)
+    g.play(int(op), True, None, None)
     

@@ -44,6 +44,7 @@ class Board():
 		return True
 
 	def removeToken(self, x, y):
+		self._free = self._free + 1
 		self._matrix[x][y] = 0
 
 	def win(self, x, y, val):

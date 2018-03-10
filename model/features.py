@@ -20,6 +20,16 @@ class Features():
         ret_w = [x + y + z for (x, y), z in zip(zip(ret_row_w, ret_col_w), ret_diag_w)]
         ret_b[0] = ret_b[0]//4
         ret_w[0] = ret_w[0]//4
+
+        norm_b = np.linalg.norm(ret_b)
+        norm_w = np.linalg.norm(ret_w)
+        
+        for i in range(0, 11):
+            if norm_b != 0:
+                ret_b[i] = ret_b[i] / norm_b
+            if norm_w != 0:
+                ret_w[i] = ret_w[i] / norm_w
+
         return (ret_b, ret_w)
 
     def count_lines(self, rows):

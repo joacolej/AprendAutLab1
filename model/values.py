@@ -1,5 +1,5 @@
 # Combinacion lineal de los atributos y minimos cuadrados
-# N-upla(cant fichas, lineas 2 libres, lineas 2 amenazadas, lineas 2 inutiles,
+# N-upla(lineas 2 libres, lineas 2 amenazadas, lineas 2 inutiles,
 #        lineas 3 libres, lineas 3 amenazadas, lineas 3 inutiles,
 #        lineas 4 libres, lineas 4 amenazadas, lineas 4 inutiles
 #        lineas 5)
@@ -14,13 +14,16 @@ class Values():
     
     def __init__(self):
         self.est_function = ([0,0,0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0,0,0])
-        self.learn_rate = 0.1
+        self.learn_rate = 1
 
-    # GETTERS -------------------------------------------------------------------------------------------------------------------------------------------
+    # GETTERS & SETTERS ---------------------------------------------------------------------------------------------------------------------------------
     # ---------------------------------------------------------------------------------------------------------------------------------------------------
     
     def get_est_function(self):
         return self.est_function
+
+    def set_est_function(self, function):
+        self.est_function = function
 
     # METHODS -------------------------------------------------------------------------------------------------------------------------------------------
     # ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -47,7 +50,7 @@ class Values():
     def update_est_function (self, train_values):
         (b_est_function, w_est_function) = self.est_function
         for ((b_board, w_board), v_train) in train_values:
-            for i in range (0, len(b_board)):
+            for i in range (1, len(b_board)):
                 b_est_function[i] = b_est_function[i] + self.learn_rate*(v_train - self.estimate_value((b_board, w_board)))*b_board[i]
                 w_est_function[i] = w_est_function[i] + self.learn_rate*(v_train - self.estimate_value((b_board, w_board)))*w_board[i]
         self.est_function = (b_est_function, w_est_function)
