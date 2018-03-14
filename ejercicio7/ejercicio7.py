@@ -11,13 +11,11 @@ class Ejercicio7():
     def findS(self, training_set):
         # empiezo con la hipotesis más específica
         hipotesis = {'dedicacion': '_',  'dificultad': '_',  'horario': '_', 'humedad': '_', 'humor_doc': '_'}
-
         for train_elem in training_set:
             # si no salva entonces no se va a cumplir en la función que define h
             if train_elem['salva'] == 'no':
                 continue
             hipotesis = self.actualizarHipotesis(hipotesis,train_elem)
-
         return hipotesis
 
     def actualizarHipotesis(self,hipotesis,train_elem):
@@ -62,6 +60,7 @@ class Ejercicio7():
         training_set = []
         # contador de tuplas
         contador = 0
+        contador_pos = 0
         while hipotesis != objetivo:
             contador += 1
             new_generated = False
@@ -71,10 +70,10 @@ class Ejercicio7():
                 new_elem = self.generateRandom()
                 new_generated = training_set.count(new_elem) == 0
                 training_set.append(new_elem)
-                
-                # actualizo las hipotesis con ese nuevo elemento
-                if new_elem['salva'] == 'no':
-                    continue
-                hipotesis = self.actualizarHipotesis(hipotesis,training_set[-1])
 
-        return (contador)
+                # actualizo las hipotesis con ese nuevo elemento
+            if new_elem['salva'] == 'si':
+                hipotesis = self.actualizarHipotesis(hipotesis,training_set[-1])
+                contador_pos += 1
+
+        return (contador, contador_pos)
