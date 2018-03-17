@@ -12,6 +12,7 @@ class Board():
 
 	def __init__(self):
 
+		# Generates 19x19 matrix of 0
 		self._free = 361
 		self._matrix = zeros(361)
 		self._matrix = reshape(self._matrix,(19,19))
@@ -28,6 +29,7 @@ class Board():
 	# METHODS -------------------------------------------------------------------------------------------------------------------------------------------
 	# ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+	# Adds token in (x,y), if is not able to, returns false
 	def addToken(self, x, y, val):
 
 		if x > 18 or x < 0:
@@ -43,10 +45,12 @@ class Board():
 		self._matrix[x][y] = val
 		return True
 
+	# Removes token in (x,y), auxiliar method used by the player after adding a token
 	def removeToken(self, x, y):
 		self._free = self._free + 1
 		self._matrix[x][y] = 0
 
+	# Checks if player won after adding token in (x,y)
 	def win(self, x, y, val):
 
 		# Check horizontal
@@ -143,5 +147,6 @@ class Board():
 
 		return False
 
+	# Checks if it is a draw after adding token in (x,y)
 	def draw(self):
 		return self._free == 0

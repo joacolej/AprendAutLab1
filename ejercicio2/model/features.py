@@ -10,7 +10,9 @@ class Features():
     # METHODS -------------------------------------------------------------------------------------------------------------------------------------------
     # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+    # Given a board's matrix, returns corresponding features normalized by euclidean norm
     def get_features(self, matrix):
+
         diags = [matrix[::-1,:].diagonal(i) for i in range(-matrix.shape[0]+1,matrix.shape[1])]
         diags.extend(matrix.diagonal(i) for i in range(matrix.shape[1]-1,-matrix.shape[0],-1))
         (ret_row_b, ret_row_w) = self.count_lines(matrix)
@@ -18,20 +20,24 @@ class Features():
         (ret_diag_b, ret_diag_w) = self.count_lines(diags)
         ret_b = [x + y + z for (x, y), z in zip(zip(ret_row_b, ret_col_b), ret_diag_b)]
         ret_w = [x + y + z for (x, y), z in zip(zip(ret_row_w, ret_col_w), ret_diag_w)]
-        ret_b[0] = ret_b[0]//4
-        ret_w[0] = ret_w[0]//4
-
-        norm_b = np.linalg.norm(ret_b)
-        norm_w = np.linalg.norm(ret_w)
         
+        # To multiply by w0
+        ret_b[0] = 1
+        ret_w[0] = 1
+
+        # Concatenate vectors to get its euclidean norm
+        ret = np.concatenate([ret_b, ret_w])
+        norm = np.linalg.norm(ret)
+        
+        # Normalize features
         for i in range(0, 11):
-            if norm_b != 0:
-                ret_b[i] = ret_b[i] / norm_b
-            if norm_w != 0:
-                ret_w[i] = ret_w[i] / norm_w
+            if norm != 0:
+                ret_b[i] = ret_b[i] / norm
+                ret_w[i] = ret_w[i] / norm
 
         return (ret_b, ret_w)
 
+    # Auxiliar method
     def count_lines(self, rows):
         ret_b = [0,0,0,0,0,0,0,0,0,0,0]
         ret_w = [0,0,0,0,0,0,0,0,0,0,0]
@@ -80,6 +86,7 @@ class Features():
             threat_lvl_w = 0
         return (ret_b, ret_w)
 
+    # Auxiliar method
     def select_index(self, cur, threat_lvl):
         if cur > 4:
             return 10

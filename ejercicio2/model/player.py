@@ -21,15 +21,18 @@ class Player():
     # METHODS -------------------------------------------------------------------------------------------------------------------------------------------
     # ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+    # Checks which play from every possible gives the best board
     def select_best_play(self, board, turn):
 
         ret = (-1,-1)
-
-        value = -1000
+        value = -2
 
         for i in range(0, 19):
             for j in range(0, 19):
 
+                # Tries adding token
+                # If false, cell is not available
+                # If true, adds it and estimates board value
                 if board.addToken(i,j,turn):
                     feature = self.f.get_features(board.get_matrix())
                     new_value = self.v.estimate_value(feature)
